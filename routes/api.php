@@ -45,8 +45,8 @@ Route::group([
 
 ], function ($route) {
 
-    $route->post('/createe',                 [UserProfileController::class,'logout']);
-    $route->put('/update/{referenceNumber}', [UserController::class,'update']);
+    $route->post('/create',                 [UserProfileController::class,'create']);
+    $route->put('/show/{userName}',         [UserProfileController::class,'show']);
    
 });
 

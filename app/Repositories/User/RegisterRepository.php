@@ -19,7 +19,7 @@ class RegisterRepository extends BaseRepository
     $user = User::create([
 
         "reference_number" => $this->userReferenceNumber(),
-        "first_name"       => strtoupper($request->firstName),
+        "first_name"       => strtoupper($request->firstName) ?? null,
         "last_name"        => strtoupper($request->lastName),
         "phone_number"     => $request->phoneNumber,
         "address"          => strtoupper($request->address),

@@ -17,30 +17,38 @@ class CreateUserProfileRepository extends BaseRepository
 {
     public function execute($request){
 
-        $user = User::where('reference_number', '=', $request->referenceNumber)->firstOrFail();
-        $request->file->store('profile_images', 'public');
+    $user = User::where('user_name', '=', $request->userName)->firstOrFail();
+
+    $request->profileImage->store('profile_images', 'public');
 
     $userProfile = User::create([
 
         "user_id"       => $user->id,
-        "profile_image" => $request->file->hashName(),
+        "profile_image" => $request->profileImage->hashName(),
         "following"     => strtoupper($request->following),
         "follow_status" => $request->followStatus ?? null,
         "post"          => strtoupper($request->post),
         
     ]);
 
-    if($this->user()->$userProfile->following == 'FOLLOWING'){
+   
+    switch($request->following){
+
+        case 'FOLLOWING':
 
     $userProfile = User::create([
         "comment"       => strtoupper($request->comment),
         "like"          => strtoupper($request->like)
     ]);
 
-    }else{
-        return response(['message: You do not have permission on this user'], 401);
-    }
-    return response($response, 200);
+    break;
 
+    case 'UNFOLLOW':
+
+        return response(['message: You do not have permission to view this page'], 401);
+    
+        break;
+    }
+        
     }   
 }
