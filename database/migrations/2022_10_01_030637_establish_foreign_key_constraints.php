@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class EstablishForeignKeyConstraints extends Migration
 {
     /**
      * Run the migrations.
@@ -12,8 +12,14 @@ return new class extends Migration
      * @return void
      */
     public function up()
-    {
-        //
+    {   
+        /*****************************************  USER  *****************************************/
+        Schema::table('user_profiles', function (Blueprint $table)
+        {   
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+           
+        });
+
     }
 
     /**
@@ -25,4 +31,5 @@ return new class extends Migration
     {
         //
     }
-};
+}
+

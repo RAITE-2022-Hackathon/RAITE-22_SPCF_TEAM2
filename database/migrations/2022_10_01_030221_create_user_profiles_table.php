@@ -15,6 +15,13 @@ return new class extends Migration
     {
         Schema::create('user_profiles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->string('profile_image')->nulllable();
+            $table->enum('following',['FOLLOWING','UNFOLLOW'])->nulllable();
+            $table->string('follow_status')->nullable();
+            $table->string('post')->nulllable();
+            $table->string('comment')->nullable();
+            $table->enum('like',['LIKE','UNLIKE']);
             $table->timestamps();
         });
     }

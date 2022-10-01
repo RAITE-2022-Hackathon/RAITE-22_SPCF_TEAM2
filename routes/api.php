@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,14 +29,25 @@ Route::group([
 $route->post('/register',                   [UserController::class,'register']);
 $route->post('/login',                      [UserController::class,'login']);
    
-    Route::group([ 
+Route::group([ 
     'middleware' => 'auth:sanctum',
 
 ], function ($route) {
     $route->post('/logout',                  [UserController::class,'logout']);
-    $route->get('/list',                     [UserController::class,'list']);
-    $route->get('/show/{applicant_id}',      [UserController::class,'show']);
-    $route->delete('/delete/{applicant_id}', [UserController::class,'delete']);
-    $route->put('/update/{applicant_id}',    [UserController::class,'update']);
+    $route->put('/update/{referenceNumber}', [UserController::class,'update']);
 });
+
 });
+
+Route::group([
+    'prefix' => 'profile',
+    'middleware' => 'auth:sanctum',
+
+], function ($route) {
+
+    $route->post('/createe',                 [UserProfileController::class,'logout']);
+    $route->put('/update/{referenceNumber}', [UserController::class,'update']);
+   
+});
+
+

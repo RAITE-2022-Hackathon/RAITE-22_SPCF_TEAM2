@@ -11,14 +11,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-class RegisterRepository extends BaseRepository
+class UpdateAuthRepository extends BaseRepository
 
 {
-    public function execute($request){
+    public function execute($request, $referenceNumber){
 
-    $user = User::create([
+        $user = User::where('reference_number','=', $referenceNumber)->first();
 
-        "reference_number" => $this->userReferenceNumber(),
+        $user->update([
+
         "first_name"       => strtoupper($request->firstName),
         "last_name"        => strtoupper($request->lastName),
         "phone_number"     => $request->phoneNumber,
@@ -28,16 +29,10 @@ class RegisterRepository extends BaseRepository
         "user_name"        => $request->userName,
         "email"            => $request->email,
         "password"         => Hash::make($request['password']),
-    ]);
 
-    $token = $user->createToken('User Password Grant Client')->plainTextToken;
+        ]);
 
-    $response = [
-        'user'  => $user,
-        'token' => $token,
-    ];
-
-    return response($response, 200);
-
-    }   
+        return response(['message: Account Updated Successfully'], 200);
+        
+    }
 }
